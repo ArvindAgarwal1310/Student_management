@@ -15,10 +15,10 @@ app = FastAPI(
 )
 
 #Base
-@app.get("/")
-async def read_root():
-    return {"message": "APIs to manage student data using FastAPI and MongoDB."}
-
+@app.head("/")
+async def head_root(response: Response):
+    response.headers["X-App-Info"] = "APIs to manage student data using FastAPI and MongoDB."
+    return Response(status_code=200)
 # Route to add a new student
 @app.post("/students", status_code=201)
 async def create_student(student: StudentCreate):
