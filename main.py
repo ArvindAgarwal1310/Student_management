@@ -91,7 +91,7 @@ async def update_student(id: str, student_update: StudentUpdate):
         result = students_collection.update_one({"id": id}, {"$set": update_data})
 
         if result.matched_count == 0:
-            raise HTTPException(status_code=404, detail="Student not found")
+            return Response(status_code=404) #Student not found
 
         return {}
     except Exception as e:
@@ -103,9 +103,9 @@ async def update_student(id: str, student_update: StudentUpdate):
 async def delete_student(id: str):
     try:
         result = students_collection.delete_one({"id": id})
-
+        print("result",result,result.deleted_count)
         if result.deleted_count == 0:
-            raise HTTPException(status_code=404, detail="Student not found")
+            return Response(status_code=404) # Student Not Found
 
         return {}
     except Exception as e:
