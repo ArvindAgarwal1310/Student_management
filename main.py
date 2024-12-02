@@ -68,7 +68,7 @@ async def list_students(
 
 
 # Route to update a student
-@app.patch("/students/{id}")
+@app.patch("/students/{id}",  status_code=204)
 async def update_student(id: str, student_update: StudentUpdate):
     try:
         # Retrieve the existing student document
@@ -93,13 +93,13 @@ async def update_student(id: str, student_update: StudentUpdate):
         if result.matched_count == 0:
             raise HTTPException(status_code=404, detail="Student not found")
 
-        return {"message": "Student updated successfully"}
+        return {}
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
 
 
 # Delete a student
-@app.delete("/students/{id}", status_code=204)
+@app.delete("/students/{id}", status_code=200)
 async def delete_student(id: str):
     try:
         result = students_collection.delete_one({"id": id})
